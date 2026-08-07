@@ -1,0 +1,26 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: |
+  Input Processor that accelerates REL_X/REL_Y trackball movement based on the
+  magnitude (hypotenuse) of the most recently seen X/Y pair. Ported from the
+  old PMW3610 driver fork's "adjustable mouse speed" feature
+  (CONFIG_PMW3610_ADJUSTABLE_MOUSESPEED).
+
+compatible: "zmk,input-processor-magnitude-scaler"
+
+include: ip_zero_param.yaml
+
+properties:
+  min-multiplier:
+    type: int
+    default: 1000
+    description: "Minimum multiplier, in thousandths (e.g. 1000 = 1.0x). Old CONFIG_PMW3610_MOUSE_SPEED_MIN."
+  max-multiplier:
+    type: int
+    default: 1500
+    description: "Maximum multiplier, in thousandths (e.g. 1500 = 1.5x). Old CONFIG_PMW3610_MOUSE_SPEED_MAX."
+  divisor:
+    type: int
+    default: 10
+    description: "Divisor applied to the movement magnitude when computing the multiplier delta."

@@ -1,0 +1,11 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+if ZMK_POINTING
+
+config ZMK_INPUT_PROCESSOR_MAGNITUDE_SCALER
+    bool "Input Processor that accelerates trackball movement based on the magnitude of the X/Y report"
+    default y
+    depends on DT_HAS_ZMK_INPUT_PROCESSOR_MAGNITUDE_SCALER_ENABLED
+
+endif
