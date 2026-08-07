@@ -52,7 +52,7 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; //P0.02を指定(MOTION)
-        cpi = <600>;
+        cpi = <800>;
         //swap-xy;
         //invert-x; //COROPIT版ではコメントアウトを外す
         //invert-y; //COROPIT版ではコメントアウトを外す
@@ -67,15 +67,30 @@
 &trackball_central_listener {
     status = "okay";
     device = <&trackball_central>;
+    input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>;  // フォールバック（mover/scroller が全レイヤーを覆う限り実行されない）
+
+    mover {
+        layers = <0 1 2 3 4 6 7>;   // SCROLL(5) 以外すべて
+        input-processors =
+            <&zip_magnitude_scaler>,                            // 旧実装同様、生の値に倍率適用
+            <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,       // Y軸反転(親のは子マッチ時に実行されないためここに置く)
+            <&zip_temp_layer 4 1200>;   // 旧: automouse-layer=4, TIMEOUT=1200ms
+    };
 
     scroller {
-        layers = <3>;
-        input-processors = 
-            // <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>,        //X軸とY軸の入れ替え
+        layers = <5>;               // 旧 scroll-layers=<5> に合わせ 3→5 に変更
+        input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,       //X軸反転
             <&zip_xy_to_scroll_mapper>,                         //スクロールモードに変更
             <&zip_scroll_transform INPUT_TRANSFORM_X_INVERT>,   //スクロールのX軸反転
-            <&zip_scroll_scaler 1 5>;                           //スクロール量を1/4倍
+            <&zip_scroll_scaler 1 32>;                          //旧実効値: 0.5倍 ÷ SCROLL_TICK 16 = 1/32
     };
+};
 
+// zip_temp_layer の誤発動対策（MOUSE_AUTO層の click(17) / mo5(18) / MB2(19) は
+// 押してもレイヤー解除しない。旧 MOVEMENT_THRESHOLD=5 の代替として、直前の
+// キー入力から150ms以上経過していないと発火しないようにする）
+&zip_temp_layer {
+    excluded-positions = <17 18 19>;
+    require-prior-idle-ms = <150>;
 };

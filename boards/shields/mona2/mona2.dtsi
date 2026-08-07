@@ -85,6 +85,14 @@
                 ;
     };
 
+    zip_magnitude_scaler: zip_magnitude_scaler {
+        compatible = "zmk,input-processor-magnitude-scaler";
+        #input-processor-cells = <0>;
+        min-multiplier = <100>;    // 旧 CONFIG_PMW3610_MOUSE_SPEED_MIN="0.1"
+        max-multiplier = <1500>;   // 旧 CONFIG_PMW3610_MOUSE_SPEED_MAX="1.5"
+        divisor = <10>;
+    };
+
     //right hand trackball
     trackball_central_listener: trackball_central_listener {
         compatible = "zmk,input-listener";
