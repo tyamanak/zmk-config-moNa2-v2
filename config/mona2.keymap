@@ -147,6 +147,22 @@
 
             label = "BT_TO_02";
         };
+
+        exit_AML: exit_AML {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&tog_off 4>;
+
+            label = "EXIT_AML";
+        };
+
+        kp_exit_AML: kp_exit_AML {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings = <&macro_param_1to1 &kp MACRO_PLACEHOLDER &exit_AML>;
+
+            label = "KP_EXIT_AML";
+        };
     };
 
     behaviors {
@@ -273,6 +289,17 @@
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
+
+        // AML中のK: タップで"k"を入力してAML解除／長押しでスクロールレイヤー
+        mo_or_kp_exit_AML: mo_or_kp_exit_AML {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MO_OR_KP_EXIT_AML";
+            #binding-cells = <2>;
+            bindings = <&mo>, <&kp_exit_AML>;
+
+            tapping-term-ms = <200>;
+            flavor = "balanced";
+        };
     };
 
     keymap {
@@ -319,7 +346,7 @@
         MOUSE_AUTO {
             bindings = <
 &trans  &trans  &trans  &trans  &trans                    &trans  &trans             &trans  &trans    &trans
-&trans  &trans  &trans  &trans  &trans            &trans  &trans  &macro_left_click  &mo 5   &mkp MB2  &to 0
+&trans  &trans  &trans  &trans  &trans            &trans  &trans  &macro_left_click  &mo_or_kp_exit_AML 5 K   &mkp MB2  &to 0
 &none   &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans             &trans  &trans    &trans
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                                       &trans
             >;
