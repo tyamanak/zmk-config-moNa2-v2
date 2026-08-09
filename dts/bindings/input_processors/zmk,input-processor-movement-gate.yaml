@@ -1,0 +1,23 @@
+# Copyright (c) 2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: |
+  Input Processor that gates REL_X/REL_Y trackball movement behind an
+  accumulated-magnitude threshold, so tiny cursor drift does not keep the
+  auto-mouse layer (zip_temp_layer) alive. While the configured `layer` is
+  active this processor is a pure passthrough (no deadzone). Ported from the
+  old PMW3610 driver fork's CONFIG_PMW3610_MOVEMENT_THRESHOLD.
+
+compatible: "zmk,input-processor-movement-gate"
+
+include: ip_zero_param.yaml
+
+properties:
+  threshold:
+    type: int
+    default: 5
+    description: "Accumulated |x|+|y| movement required before events are let through. Old CONFIG_PMW3610_MOVEMENT_THRESHOLD."
+  layer:
+    type: int
+    required: true
+    description: "Auto-mouse layer number. While this layer is active, the gate is a pure passthrough."

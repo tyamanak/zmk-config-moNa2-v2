@@ -8,4 +8,9 @@ config ZMK_INPUT_PROCESSOR_MAGNITUDE_SCALER
     default y
     depends on DT_HAS_ZMK_INPUT_PROCESSOR_MAGNITUDE_SCALER_ENABLED
 
+config ZMK_INPUT_PROCESSOR_MOVEMENT_GATE
+    bool "Input Processor that gates trackball movement behind an accumulated-magnitude threshold outside the auto-mouse layer"
+    default y
+    depends on DT_HAS_ZMK_INPUT_PROCESSOR_MOVEMENT_GATE_ENABLED
+
 endif
