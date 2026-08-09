@@ -191,7 +191,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - '&macro_left_click'
-  - '5'
+  - {t: '&kp_exit_AML K', h: '5'}
   - '&mkp MB2'
   - {t: default, h: toggle}
   - ''
