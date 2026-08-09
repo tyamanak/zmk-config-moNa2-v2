@@ -93,6 +93,13 @@
         divisor = <10>;
     };
 
+    zip_movement_gate: zip_movement_gate {
+        compatible = "zmk,input-processor-movement-gate";
+        #input-processor-cells = <0>;
+        threshold = <5>;   // 旧 CONFIG_PMW3610_MOVEMENT_THRESHOLD
+        layer = <4>;       // AMLレイヤー
+    };
+
     //right hand trackball
     trackball_central_listener: trackball_central_listener {
         compatible = "zmk,input-listener";
