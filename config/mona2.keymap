@@ -151,14 +151,18 @@
         exit_AML: exit_AML {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
+            wait-ms = <0>;
             bindings = <&tog_off 4>;
 
             label = "EXIT_AML";
         };
 
+        // tap-ms は既定(30ms)のまま。0にするとホストがpress/releaseを
+        // 取りこぼす可能性があり、多用するKの入力信頼性を優先する
         kp_exit_AML: kp_exit_AML {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
+            wait-ms = <0>;
             bindings = <&macro_param_1to1 &kp MACRO_PLACEHOLDER &exit_AML>;
 
             label = "KP_EXIT_AML";
